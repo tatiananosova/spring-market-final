@@ -27,7 +27,7 @@
                 <td>{{p.cost}}</td>
                 <td>{{p.category.categoryName}}</td>
                 <td>
-                    <div ng-if="User.username == 'user1'">
+                    <div ng-if="User.userRole.role == 'ADMIN'">
                         <button class="btn btn-danger" ng-click="deleteProductById(p.id)">Удалить товар</button>
                     </div>
                 </td>
@@ -62,28 +62,27 @@
             <li class="list-group-item list-group-item-success">Итого: {{sum}} руб.</li>
         </ul>
     </div>
-    <div ng-if="User.username == 'user1'">
+
+    <form ng-show="User.userRole.role == 'ADMIN'" novalidate ng-submit="saveProduct()">
         <h3>Добавление Товара</h3>
-        <form novalidate ng-submit="saveProduct()">
-            <div class="form-group col-md-6">
-                <label >Наиминование</label>
-                <input class="form-control" type="text" ng-model="NewProduct.title">
-            </div>
-            <div class="form-group col-md-6">
-                <label >Стоимость</label>
-                <input class="form-control" type="number" ng-model="NewProduct.cost">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="exampleFormControlSelect1">Категория</label>
-                <select class="form-control" id="exampleFormControlSelect1" ng-model="NewProduct.category.categoryName">
-                    <option ng-repeat="x in Categories">{{x.categoryName}}</option>
-                </select>
-            </div>
-            <div>
-                <button class="btn btn-success" type="submit">Сохранить</button>
-            </div>
-        </form>
-    </div>
+        <div class="form-group col-md-6">
+            <label >Наиминование</label>
+            <input class="form-control" type="text" ng-model="NewProduct.title">
+        </div>
+        <div class="form-group col-md-6">
+            <label >Стоимость</label>
+            <input class="form-control" type="number" ng-model="NewProduct.cost">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="exampleFormControlSelect1">Категория</label>
+            <select class="form-control" id="exampleFormControlSelect1" ng-model="NewProduct.category.categoryName">
+                <option ng-repeat="x in Categories">{{x.categoryName}}</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-success" type="submit">Сохранить</button>
+        </div>
+    </form>
 </div>
 
 </body>

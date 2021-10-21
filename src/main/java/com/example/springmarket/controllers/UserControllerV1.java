@@ -1,6 +1,7 @@
 package com.example.springmarket.controllers;
 
 import com.example.springmarket.model.Product;
+import com.example.springmarket.model.User;
 import com.example.springmarket.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ public class UserControllerV1 {
     private final UserService userService;
 
     @GetMapping("current")
-    public UserDetails getCurrentUser() {
-        return userService.getCurrentUser();
+    public User getUser() {
+        return userService.getUser();
     }
 }

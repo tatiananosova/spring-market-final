@@ -31,6 +31,14 @@ public class UserService implements UserDetailsService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return loadUserByUsername(auth.getName());
     }
+
+    public com.example.springmarket.model.User getUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findUserByUsername(auth.getName())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("User " + auth.getName() + " not found."));
+    }
     
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

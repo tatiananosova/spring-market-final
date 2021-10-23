@@ -11,6 +11,14 @@ angular.module('app', []).controller('indexController', function ($scope, $http,
             })
     };
 
+    $scope.updateProduct = function () {
+        console.log($scope.CurrentProduct)
+        $http.put(contextPath + '/products', $scope.CurrentProduct)
+            .then(function (resp) {
+                $scope.fillTable();
+            })
+    };
+
     $scope.deleteProductById = function(id) {
         $http.get(contextPath + '/products/' + id + '/delete')
             .then(function (resp){
@@ -87,6 +95,16 @@ angular.module('app', []).controller('indexController', function ($scope, $http,
                 $scope.User = response.data;
             });
     };
+
+    $scope.IsVisible = false;
+    $scope.getCurrentProduct = function (id) {
+        $http.get(contextPath + '/products/' + id)
+            .then(function (resp){
+                $scope.CurrentProduct = resp.data;
+                console.log($scope.CurrentProduct)
+            })
+        $scope.IsVisible = $scope.IsVisible ? false : true;
+    }
 
     $scope.fillTable();
     $scope.getCategories();

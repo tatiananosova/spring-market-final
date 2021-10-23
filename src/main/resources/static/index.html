@@ -13,28 +13,33 @@
 <div class="container"  ng-controller="indexController">
 
     <div class="row">
-        <h1 class="col-md-6">Мои товары</h1>
-        <a  class="btn btn-primary" href="/logout">Logout</a>
+        <h1 class="display-5 col-md-7">Мaгазин: Фермерская Корзина</h1>
+        <a  class="btn btn-primary h-25 mt-2"  href="/logout">Logout</a>
     </div>
 
-    <div>
+    <div class="mt-5">
         <h1>Список товаров</h1>
-        <table class="table table-hove">
-            <tr><th>Id</th><th>Наименование</th><th>Стоимость</th><th>Категория</th></tr>
-            <tr ng-repeat="p in ProductsPage.content">
-                <td>{{p.id}}</td>
-                <td>{{p.title}}</td>
-                <td>{{p.cost}}</td>
-                <td>{{p.category.categoryName}}</td>
-                <td>
-                    <div ng-if="User.userRole.role == 'ADMIN'">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr class="table-info"><th>Id</th><th>Наименование</th><th>Стоимость</th><th>Категория</th><th></th><th></th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in ProductsPage.content">
+                    <td>{{p.id}}</td>
+                    <td>{{p.title}}</td>
+                    <td>{{p.cost}}</td>
+                    <td>{{p.category.categoryName}}</td>
+                    <td ng-if="User.userRole.role == 'ADMIN'">
                         <button class="btn btn-danger" ng-click="deleteProductById(p.id)">Удалить товар</button>
-                    </div>
-                </td>
-                <td>
-                    <button class="btn btn-group" ng-click="addProductToCart(p.id)">Добавить в корзину</button>
-                </td>
-            </tr>
+                    </td>
+                    <td ng-if="User.userRole.role == 'ADMIN'">
+                        <button class="btn btn-warning" ng-click="getCurrentProduct(p.id)">Редактировать товар</button>
+                    </td>
+                    <td ng-if="User.userRole.role == 'USER'">
+                        <button class="btn btn-group" ng-click="addProductToCart(p.id)">Добавить в корзину</button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <nav aria-label="Page navigation">
@@ -53,17 +58,38 @@
             </li>
         </ul>
     </nav>
-    <div>
+    <div  ng-show="User.userRole.role == 'USER'">
         <h1>В Корзине</h1>
         <ul class="list-group">
-            <li class="list-group-item list-group-item-secondary" ng-repeat="p in ProductsInCart">
+            <li class="list-group-item list-group-item-info" ng-repeat="p in ProductsInCart">
                 {{p.title}} стоимость {{::p.cost}} руб.
             </li>
             <li class="list-group-item list-group-item-success">Итого: {{sum}} руб.</li>
         </ul>
     </div>
 
-    <form ng-show="User.userRole.role == 'ADMIN'" novalidate ng-submit="saveProduct()">
+    <form class="mb-3" ng-show="User.userRole.role == 'ADMIN' && IsVisible" novalidate ng-submit="updateProduct()">
+        <h3>Редактирование Товара</h3>
+        <div class="form-group col-md-6">
+            <label >Наиминование</label>
+            <input class="form-control" type="text" ng-model="CurrentProduct.title">
+        </div>
+        <div class="form-group col-md-6">
+            <label >Стоимость</label>
+            <input class="form-control" type="number" ng-model="CurrentProduct.cost">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="exampleFormControlSelect1">Категория</label>
+            <select class="form-control" id="exampleFormControlSelect2" ng-model="CurrentProduct.category.categoryName">
+                <option ng-repeat="x in Categories">{{x.categoryName}}</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-info" type="submit">Сохранить</button>
+        </div>
+    </form>
+
+    <form class="mb-3" ng-show="User.userRole.role == 'ADMIN'" novalidate ng-submit="saveProduct()">
         <h3>Добавление Товара</h3>
         <div class="form-group col-md-6">
             <label >Наиминование</label>

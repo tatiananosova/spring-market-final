@@ -20,7 +20,7 @@ public class ProductControllerV1 {
     public Page<Product> getAllProducts(@RequestParam(required = false) Map<String, String> params,
                                         @RequestParam(name = "page-number", defaultValue = "1") Integer pageNumber,
                                         @RequestParam(name = "page-size", defaultValue = "5") Integer pageSize) {
-        return productService.findAll(params, pageNumber,pageSize);
+        return productService.findAll(params, pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

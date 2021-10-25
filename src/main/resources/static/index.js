@@ -48,13 +48,13 @@ angular.module('app', []).controller('indexController', function ($scope, $http,
             })
     }
 
+    $scope.CategoryFilter = null;
     $scope.fillTable = function(pageIndex = 1) {
         $http({
             url: contextPath + '/products',
             method: 'GET',
             params: {
-                'title': $scope.filter ? $scope.filter.title : null,
-                'cost': $scope.filter ? $scope.filter.cost : null,
+                'category': $scope.CategoryFilter,
                 'page-number': pageIndex
             }
         }).then(function (response) {

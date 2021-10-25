@@ -24,7 +24,7 @@ public class ProductService {
     public Page<Product> findAll(Map<String, String> params, Integer pageNumber, Integer pageSize) {
         final Specification<Product> specification = ProductSpecification.build(params);
         return productRepository.findAll(specification,
-                PageRequest.of(pageNumber-1, pageSize, Sort.by("id").descending()));
+                PageRequest.of(pageNumber-1, pageSize, Sort.by("id").ascending()));
     }
 
     public Product save(Product product) {

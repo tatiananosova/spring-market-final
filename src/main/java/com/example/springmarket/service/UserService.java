@@ -4,6 +4,8 @@ import com.example.springmarket.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +27,18 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User " + name + " not found."));
     }
 
+    public UserDetails getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return loadUserByUsername(auth.getName());
+    }
+
+    public com.example.springmarket.model.User getUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findUserByUsername(auth.getName())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("User " + auth.getName() + " not found."));
+    }
     
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

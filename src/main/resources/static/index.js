@@ -1,5 +1,6 @@
-angular.module('app', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8086/api/v1';
+angular.module('app', []).controller('indexController', function ($scope, $http, $location) {
+    const mainUri = 'http://localhost:8086';
+    const contextPath = mainUri + '/api/v1';
 
     $scope.saveProduct = function () {
         console.log($scope.NewProduct)
@@ -80,7 +81,15 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         return arr;
     }
 
+    $scope.getCurrentUser = function () {
+        $http.get(contextPath + '/users/current')
+            .then(function (response) {
+                $scope.User = response.data;
+            });
+    };
+
     $scope.fillTable();
     $scope.getCategories();
     $scope.fillCart();
+    $scope.getCurrentUser();
 });

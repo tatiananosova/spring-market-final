@@ -24,5 +24,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @OneToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private UserRole userRole;
 
 }

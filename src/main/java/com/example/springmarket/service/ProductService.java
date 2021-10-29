@@ -7,6 +7,7 @@ import com.example.springmarket.service.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,8 @@ public class ProductService {
 
     public Page<Product> findAll(Map<String, String> params, Integer pageNumber, Integer pageSize) {
         final Specification<Product> specification = ProductSpecification.build(params);
-        return productRepository.findAll(specification, PageRequest.of(pageNumber-1,pageSize));
+        return productRepository.findAll(specification,
+                PageRequest.of(pageNumber-1, pageSize, Sort.by("id").ascending()));
     }
 
     public Product save(Product product) {

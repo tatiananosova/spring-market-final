@@ -1,5 +1,6 @@
 package com.example.springmarket.service.specification;
 
+import com.example.springmarket.model.Category;
 import com.example.springmarket.model.Product;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,10 @@ public class ProductSpecification {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("cost"), cost);
     }
 
+    public static Specification<Product> categoryEq(String category) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("categoryName"), category);
+    }
+
     public static Specification<Product> titleLike(String title) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), title);
     }
@@ -33,6 +38,9 @@ public class ProductSpecification {
                     }
                     if ("cost".equals(it.getKey())) {
                         return ProductSpecification.costEq(Integer.parseInt(it.getValue()));
+                    }
+                    if ("category".equals(it.getKey())) {
+                        return ProductSpecification.categoryEq(it.getValue());
                     }
                     return null;
                 })

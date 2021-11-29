@@ -1,0 +1,22 @@
+version: '3.2'
+
+volumes:
+  spring-market:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:9.6
+    container_name: spring-market
+    volumes:
+      - type: volume
+        source: spring-market
+        target: /var/lib/postgresql/dataConfig
+    environment:
+      POSTGRES_DB: spring-market
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespass
+    ports:
+      - "5432:5432"
+
+# jdbc:postgresql://localhost:5432/spring-market

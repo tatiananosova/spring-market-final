@@ -49,12 +49,14 @@ angular.module('app', []).controller('indexController', function ($scope, $http,
     }
 
     $scope.CategoryFilter = null;
+    $scope.ProductFilter = null;
     $scope.fillTable = function(pageIndex = 1) {
         $http({
             url: contextPath + '/products',
             method: 'GET',
             params: {
                 'category': $scope.CategoryFilter,
+                'title': $scope.ProductFilter,
                 'page-number': pageIndex
             }
         }).then(function (response) {

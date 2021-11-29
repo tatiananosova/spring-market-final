@@ -22,11 +22,16 @@ public class ProductSpecification {
     }
 
     public static Specification<Product> categoryEq(String category) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("categoryName"), category);
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            if (category.equals("All")) {
+                return null;
+            }
+            return criteriaBuilder.equal(root.get("category").get("categoryName"), category);
+        };
     }
 
     public static Specification<Product> titleLike(String title) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), title);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + title + "%");
     }
 
     public static Specification<Product> build(Map<String, String> params) {
@@ -34,7 +39,7 @@ public class ProductSpecification {
                 .filter(it-> StringUtils.hasText(it.getValue()))
                 .map(it -> {
                     if ("title".equals(it.getKey())) {
-                        return ProductSpecification.titleEq(it.getValue());
+                        return ProductSpecification.titleLike(it.getValue());
                     }
                     if ("cost".equals(it.getKey())) {
                         return ProductSpecification.costEq(Integer.parseInt(it.getValue()));

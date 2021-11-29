@@ -21,8 +21,9 @@
         <h1 class="mb-1">Список товаров</h1>
         <div class="form-group col-md-6 mt-4">
             <label >Поиск</label>
-            <input type="text" ng-model="search" placeholder="Поиск по товарам" />
+            <input type="text" ng-model="ProductFilter" ng-change="fillTable()" placeholder="Поиск по товарам" />
             <select ng-model="CategoryFilter" ng-change="fillTable()">
+                <option selected>All</option>
                 <option ng-repeat="x in Categories">{{x.categoryName}}</option>
             </select>
         </div>
